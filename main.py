@@ -6,20 +6,21 @@ We have to show at least:
 - It’s solution(s) and the polarity of the discriminant if it makes sense.
 """
 import sys
+from reduced_form import reduced_form
 
 
 def main():
     print("Welcome to Computer_v1 !")
-    if len(sys.argv) != 2:
-        pass
-
+    if len(sys.argv) == 1:
+        equation = input("Please enter the equation: ")
     elif len(sys.argv) == 2:
-        print("You have entered the equation: " + sys.argv[1])
-
+        equation = sys.argv[1]
     else:
         print("Error: Invalid number of arguments")
-        print("Usage: python main.py \"equation\"")
+        print("Usage: python main.py <equation>")
         sys.exit(1)
+
+    reduced_form(equation)
 
 
 if __name__ == "__main__":
