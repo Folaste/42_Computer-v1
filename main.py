@@ -20,7 +20,9 @@ def main():
         print("Usage: python main.py <equation>")
         sys.exit(1)
 
-    reduced_form(equation)
+    print("Equation:", equation)
+    coefs = reduced_form(equation)
+    # solve_equation(coefs)
 
 
 if __name__ == "__main__":
