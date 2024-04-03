@@ -15,13 +15,13 @@ def reduced_form(equation: str) -> list[int]:
     right_values = get_values(right_terms)
     print("\nLeft values:", left_values, "\nRight values:", right_values, file=sys.stderr, flush=True)
 
-    # Find the max degree theoretical of the equation
-    max_degree_th = max(max(left_values, key=lambda x: x[1])[1], max(right_values, key=lambda x: x[1])[1])
-    print("\nMax degree theoretical:", max_degree_th, file=sys.stderr, flush=True)
+    # Find the degree theoretical of the equation
+    degree_th = max(max(left_values, key=lambda x: x[1])[1], max(right_values, key=lambda x: x[1])[1])
+    print("\nMax degree theoretical:", degree_th, file=sys.stderr, flush=True)
 
     # Create lists of coefficients
-    left_coefficients = get_coefficients(left_values, max_degree_th)
-    right_coefficients = get_coefficients(right_values, max_degree_th)
+    left_coefficients = get_coefficients(left_values, degree_th)
+    right_coefficients = get_coefficients(right_values, degree_th)
     print("\nLeft coefficients:", left_coefficients, file=sys.stderr, flush=True)
     print("Right coefficients:", right_coefficients, file=sys.stderr, flush=True)
 
@@ -63,7 +63,7 @@ def get_values(terms: list[str]) -> list[tuple[int, int]]:
 def get_coefficients(values: list[tuple[int, int]], max_degree: int) -> list[int]:
     coefficients = [0] * (max_degree + 1)
     for value in values:
-        coefficients[value[1]] = value[0]
+        coefficients[value[1]] += value[0]
     return coefficients
 
 
