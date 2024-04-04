@@ -1,7 +1,9 @@
 import sys
+from colorama import Fore
 
 
-def reduced_form(equation: str) -> list[int]:
+def reduced_form(equation: str) -> list[float]:
+    print(Fore.BLUE + "REDUCED FORM FUNCTION", file=sys.stderr, flush=True)
     left, right = split_equation(equation)
     print("Left part:", left, "\nRight part:", right, file=sys.stderr, flush=True)
 
@@ -17,7 +19,7 @@ def reduced_form(equation: str) -> list[int]:
 
     # Find the degree theoretical of the equation
     degree_th = max(max(left_values, key=lambda x: x[1])[1], max(right_values, key=lambda x: x[1])[1])
-    print("\nMax degree theoretical:", degree_th, file=sys.stderr, flush=True)
+    print("\nDegree theoretical:", degree_th, file=sys.stderr, flush=True)
 
     # Create lists of coefficients
     left_coefficients = get_coefficients(left_values, degree_th)
@@ -51,23 +53,23 @@ def split_into_terms(part: str) -> list[str]:
     return terms
 
 
-def get_values(terms: list[str]) -> list[tuple[int, int]]:
+def get_values(terms: list[str]) -> list[tuple[float, int]]:
     values = []
     for term in terms:
         value = term.split("*X^")
-        value = int(value[0]), int(value[1])
+        value = float(value[0]), int(value[1])
         values.append(value)
     return values
 
 
-def get_coefficients(values: list[tuple[int, int]], max_degree: int) -> list[int]:
+def get_coefficients(values: list[tuple[float, int]], max_degree: int) -> list[float]:
     coefficients = [0] * (max_degree + 1)
     for value in values:
         coefficients[value[1]] += value[0]
     return coefficients
 
 
-def get_reduced_coefficients(left_coefficients: list[int], right_coefficients: list[int]) -> list[int]:
+def get_reduced_coefficients(left_coefficients: list[float], right_coefficients: list[float]) -> list[float]:
     reduced_coefficients = [left - right for left, right in zip(left_coefficients, right_coefficients)]
     # Remove trailing zeros
     while reduced_coefficients and reduced_coefficients[-1] == 0 and len(reduced_coefficients) > 1:
@@ -75,7 +77,7 @@ def get_reduced_coefficients(left_coefficients: list[int], right_coefficients: l
     return reduced_coefficients
 
 
-def create_reduced_form(reduced_coefficients: list[int]) -> str:
+def create_reduced_form(reduced_coefficients: list[float]) -> str:
     string = ""
     for i, coefficient in enumerate(reduced_coefficients):
         if i == 0:
