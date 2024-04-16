@@ -40,6 +40,7 @@ def solve_degree_2(terms: list[float]):
     b = terms[1]
     c = terms[0]
     discriminant = b ** 2 - 4 * a * c
+    print("Discriminant:", discriminant)
     print("Discriminant:", discriminant, file=sys.stderr, flush=True)
     if discriminant > 0:
         print("Discriminant is strictly positive, the two solutions are:")

@@ -6,11 +6,11 @@ We have to show at least:
 - It’s solution(s) and the polarity of the discriminant if it makes sense.
 """
 import sys
-from reduced_form import reduced_form
-from solver import solve_equation
 from colorama import init
 
-
+from reduced_form import reduced_form
+from solver import solve_equation
+from plot_equation import plot_equation
 
 
 def main():
@@ -32,7 +32,10 @@ def main():
 
     # print("Equation:", equation)
     terms = reduced_form(equation)
+    if len(terms) - 1 <= 2:
+        plot_equation(terms)
     solve_equation(terms)
+    # TODO: Add verification of the solutions
 
 
 if __name__ == "__main__":
