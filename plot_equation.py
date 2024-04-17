@@ -1,18 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+from ft_math import ft_pow
+
 
 def plot_equation(terms: list[float]) -> None:
+    print("Plotting the equation...\n")
 
     def f(z):
-        return sum([term * z ** i for i, term in enumerate(terms)])
+        return sum([term * ft_pow( z, i) for i, term in enumerate(terms)])
 
     x = np.linspace(-5, 5, 1000)
     y = f(x)
 
     plt.plot(x, y)
 
-    plt.xlim(-5, 5)
+    # plt.xlim(-5, 5)
     plt.ylim(-5, 5)
 
     ax = plt.gca()

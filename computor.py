@@ -11,10 +11,11 @@ from colorama import init
 from reduced_form import reduced_form
 from solver import solve_equation
 from plot_equation import plot_equation
+from verification import verify_solutions
 
 
 def main():
-    print("Welcome to Computer_v1 !")
+    print("Welcome to Computor_v1 !\n")
     if len(sys.argv) == 1:
         try:
             equation = input("Please enter the equation: ")
@@ -27,15 +28,16 @@ def main():
 
     else:
         print("Error: Invalid number of arguments")
-        print("Usage: python main.py <equation>")
+        print("Usage: python computor.py <equation>")
         sys.exit(1)
 
-    # print("Equation:", equation)
+    print("Equation:", equation, "\n")
     terms = reduced_form(equation)
     if len(terms) - 1 <= 2:
         plot_equation(terms)
-    solve_equation(terms)
-    # TODO: Add verification of the solutions
+    solutions = solve_equation(terms)
+    if solutions is not None:
+        verify_solutions(solutions, terms)
 
 
 if __name__ == "__main__":
