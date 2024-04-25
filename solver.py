@@ -2,6 +2,7 @@ import sys
 from colorama import Fore
 from complex import Complex
 from ft_math import ft_pow, ft_sqrt
+from better_solutions import better_solution_deg1, better_solution_deg2
 
 
 def solve_equation(terms: list[float]) -> list[float | Complex] | None:
@@ -36,7 +37,7 @@ def solve_degree_1(terms: list[float]) -> list[float]:
     a = terms[1]
     result = -b / a
     print("The solution is:")
-    print(result, "\n")
+    print(better_solution_deg1(a, -b), "\n")
     return [result]
 
 
@@ -52,14 +53,17 @@ def solve_degree_2(terms: list[float]) -> list[float | Complex]:
         print("Discriminant is strictly positive, the two solutions are:")
         x1 = (-b - ft_sqrt(discriminant)) / (2 * a)
         x2 = (-b + ft_sqrt(discriminant)) / (2 * a)
-        print(x1)
-        print(x2, "\n")
+        if isinstance(discriminant, float):
+            print(x1)
+            print(x2, "\n")
+        else:
+            better_solution_deg2(a, b, discriminant, False)
         return [x1, x2]
 
     elif discriminant == 0:
         print("Discriminant is equal to 0, the solution is:")
         x = -b / (2 * a)
-        print(x, "\n")
+        print(better_solution_deg1(2 * a, -b), "\n")
         return [x]
 
     else:

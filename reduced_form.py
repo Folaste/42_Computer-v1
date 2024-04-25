@@ -49,6 +49,8 @@ def split_equation(equation: str) -> tuple[str, str]:
 
 def split_into_terms(part: str) -> list[str]:
     part = part.replace("+", " ").replace("-", " -")
+    if part[0] == " ":
+        part = part[1:]
     terms = part.split(" ")
     return terms
 
@@ -82,6 +84,8 @@ def create_reduced_form(reduced_coefficients: list[float]) -> str:
     for i, coefficient in enumerate(reduced_coefficients):
         if i == 0:
             string += f"{coefficient} * X^{i}"
+        elif coefficient == 0:
+            continue
         elif coefficient < 0:
             string += f" - {-coefficient} * X^{i}"
         else:

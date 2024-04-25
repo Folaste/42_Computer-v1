@@ -25,3 +25,39 @@ def ft_sqrt(number: int | float, epsilon=1e-14, max_iterations=2000) -> int | fl
 
     print("ft_sqrt: no convergence")
     sys.exit(1)
+
+
+def ft_gcd(a: int, b: int) -> int:
+    while b:
+        a, b = b, a % b
+    return a
+
+
+def ft_prime_decomposition(n: int) -> list[int]:
+    factors = []
+    i = 2
+    while i <= n:
+        if n % i == 0:
+            factors.append(i)
+            n //= i
+        else:
+            i += 1
+
+    return factors
+
+
+def simplify_sqrt(factors: list[int]):
+    factor = 1
+    root = 1
+    i = 0
+    while i < len(factors) and len(factors) > 1:
+        if factors[i] == factors[i + 1]:
+            factor *= factors[i]
+            factors.pop(i)
+            factors.pop(i)
+        else:
+            i += 1
+    for i in factors:
+        root *= i
+
+    return factor, root
