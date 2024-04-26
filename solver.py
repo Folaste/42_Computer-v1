@@ -51,13 +51,15 @@ def solve_degree_2(terms: list[float]) -> list[float | Complex]:
 
     if discriminant > 0:
         print("Discriminant is strictly positive, the two solutions are:")
-        x1 = (-b - ft_sqrt(discriminant)) / (2 * a)
-        x2 = (-b + ft_sqrt(discriminant)) / (2 * a)
-        if isinstance(discriminant, float):
-            print(x1)
-            print(x2, "\n")
-        else:
-            better_solution_deg2(a, b, discriminant, False)
+        x1 = (-b / (2 * a)) - (ft_sqrt(discriminant) / (2 * a))
+        x2 = (-b / (2 * a)) + (ft_sqrt(discriminant) / (2 * a))
+        print(x1)
+        print(x2, "\n")
+        # if discriminant.is_integer() is False:
+        #     print(x1)
+        #     print(x2, "\n")
+        # else:
+        #     better_solution_deg2(2 * a, -b, int(discriminant), False)
         return [x1, x2]
 
     elif discriminant == 0:

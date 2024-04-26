@@ -8,7 +8,7 @@ def plot_equation(terms: list[float]) -> None:
     print("Plotting the equation...\n")
 
     def f(z):
-        return sum([term * ft_pow( z, i) for i, term in enumerate(terms)])
+        return sum([term * ft_pow(z, i) for i, term in enumerate(terms)])
 
     x = np.linspace(-5, 5, 1000)
     y = f(x)
