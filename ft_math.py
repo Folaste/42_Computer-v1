@@ -46,11 +46,12 @@ def ft_prime_decomposition(n: int) -> list[int]:
     return factors
 
 
-def simplify_sqrt(factors: list[int]):
+def simplify_sqrt(n: int) -> tuple[int, int]:
     factor = 1
     root = 1
     i = 0
 
+    factors = ft_prime_decomposition(n)
     while i < len(factors) - 1:
         if factors[i] == factors[i + 1]:
             factor *= factors[i]
