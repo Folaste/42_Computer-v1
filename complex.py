@@ -19,6 +19,9 @@ class Complex:
         else:
             return Complex(self._re + other, self._im)
 
+    def __radd__(self, other):
+        return self + other
+
     def __sub__(self, other):
         if isinstance(other, Complex):
             return Complex(self._re - other.re, self._im - other.im)
@@ -30,6 +33,17 @@ class Complex:
             return Complex(self._re * other.re - self._im * other.im, self._re * other.im + self._im * other.re)
         else:
             return Complex(self._re * other, self._im * other)
+
+    def __rmul__(self, other):
+        return self * other
+
+    def ft_pow(self, exponent: int) -> 'Complex':
+        if exponent == 0:
+            return Complex(1, 0)
+        return self * self.ft_pow(exponent - 1)
+
+    def __round__(self, n=None):
+        return Complex(round(self._re, n), round(self._im, n))
 
     @property
     def re(self) -> float:
