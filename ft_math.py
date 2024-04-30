@@ -2,6 +2,7 @@ import sys
 
 
 def ft_pow(base: float | int, exponent: int) -> int | float:
+    """ Returns base raised to the power of exponent. """
     if exponent == 0:
         return 1
     if exponent < 0:
@@ -28,12 +29,14 @@ def ft_sqrt(number: int | float, epsilon=1e-14, max_iterations=2000) -> int | fl
 
 
 def ft_gcd(a: int, b: int) -> int:
+    """ Returns the greatest common divisor of a and b. """
     while b:
         a, b = b, a % b
     return a
 
 
 def ft_prime_decomposition(n: int) -> list[int]:
+    """ Returns the prime decomposition of n. """
     factors = []
     i = 2
     while i <= n:
@@ -47,6 +50,7 @@ def ft_prime_decomposition(n: int) -> list[int]:
 
 
 def simplify_sqrt(n: int) -> tuple[int, int]:
+    """ Returns the simplified form of the square root of n as a tuple (factor, root) using prime decomposition."""
     factor = 1
     root = 1
     i = 0

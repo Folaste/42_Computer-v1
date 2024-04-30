@@ -1,3 +1,6 @@
+"""
+This module contains the Complex class which represents a complex number.
+"""
 
 
 class Complex:

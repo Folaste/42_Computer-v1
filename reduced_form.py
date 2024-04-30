@@ -3,33 +3,33 @@ from colorama import Fore
 
 
 def reduced_form(equation: str) -> list[float]:
-    # print(Fore.BLUE + "REDUCED FORM FUNCTION", file=sys.stderr, flush=True)
+    print(Fore.BLUE + "REDUCED FORM FUNCTION", file=sys.stderr, flush=True)
     left, right = split_equation(equation)
-    # print("Left part:", left, "\nRight part:", right, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "Left part:", left, "\nRight part:", right, file=sys.stderr, flush=True)
 
     # Split parts into terms
     left_terms = split_into_terms(left)
     right_terms = split_into_terms(right)
-    # print("\nLeft terms:", left_terms, "\nRight terms:", right_terms, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "\nLeft terms:", left_terms, "\nRight terms:", right_terms, file=sys.stderr, flush=True)
 
     # Create list of values
     left_values = get_values(left_terms)
     right_values = get_values(right_terms)
-    # print("\nLeft values:", left_values, "\nRight values:", right_values, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "\nLeft values:", left_values, "\nRight values:", right_values, file=sys.stderr, flush=True)
 
     # Find the degree theoretical of the equation
     degree_th = max(max(left_values, key=lambda x: x[1])[1], max(right_values, key=lambda x: x[1])[1])
-    # print("\nDegree theoretical:", degree_th, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "\nDegree theoretical:", degree_th, file=sys.stderr, flush=True)
 
     # Create lists of coefficients
     left_coefficients = get_coefficients(left_values, degree_th)
     right_coefficients = get_coefficients(right_values, degree_th)
-    # print("\nLeft coefficients:", left_coefficients, file=sys.stderr, flush=True)
-    # print("Right coefficients:", right_coefficients, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "\nLeft coefficients:", left_coefficients, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "Right coefficients:", right_coefficients, file=sys.stderr, flush=True)
 
     # Get the reduced coefficients
     reduced_coefficients = get_reduced_coefficients(left_coefficients, right_coefficients)
-    # print("\nReduced coefficients:", reduced_coefficients, file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + "\nReduced coefficients:", reduced_coefficients, file=sys.stderr, flush=True)
 
     # Create the reduced form
     str_reduced_form = create_reduced_form(reduced_coefficients)

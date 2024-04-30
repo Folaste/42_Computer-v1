@@ -8,5 +8,5 @@ def verify_solutions(solutions, terms):
     print("Verifying the solutions...")
     for solution in solutions:
         result = f(solution)
-        print(f"Equation with solution {solution}:", result)
+        print(f"Equation with solution {solution}: {result}")
     print("Verification complete.")

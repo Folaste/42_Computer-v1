@@ -6,7 +6,7 @@ from better_solutions import better_solution_deg1, better_solution_deg2
 
 
 def solve_equation(terms: list[float]) -> list[float | Complex] | None:
-    # print(Fore.BLUE + "\n\nSOLVE EQUATION FUNCTION", file=sys.stderr, flush=True)
+    print(Fore.BLUE + "\n\nSOLVE EQUATION FUNCTION", file=sys.stderr, flush=True)
     degree = len(terms) - 1
     print("Polynomial degree:", degree, "\n")
 
@@ -24,7 +24,7 @@ def solve_equation(terms: list[float]) -> list[float | Complex] | None:
 
 
 def solve_degree_0(terms: list[float]) -> None:
-    # print(Fore.GREEN + "SOLVE DEGREE 0 FUNCTION", file=sys.stderr, flush=True)
+    print(Fore.GREEN + "SOLVE DEGREE 0 FUNCTION", file=sys.stderr, flush=True)
     if terms[0] == 0:
         print("All real numbers are solutions.")
     else:
@@ -32,7 +32,7 @@ def solve_degree_0(terms: list[float]) -> None:
 
 
 def solve_degree_1(terms: list[float]) -> list[float]:
-    # print(Fore.GREEN + "SOLVE DEGREE 1 FUNCTION", file=sys.stderr, flush=True)
+    print(Fore.GREEN + "SOLVE DEGREE 1 FUNCTION", file=sys.stderr, flush=True)
     b = terms[0]
     a = terms[1]
     result = -b / a
@@ -42,7 +42,7 @@ def solve_degree_1(terms: list[float]) -> list[float]:
 
 
 def solve_degree_2(terms: list[float]) -> list[float | Complex]:
-    # print(Fore.GREEN + "SOLVE DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
+    print(Fore.GREEN + "SOLVE DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
     a = terms[2]
     b = terms[1]
     c = terms[0]
@@ -50,6 +50,7 @@ def solve_degree_2(terms: list[float]) -> list[float | Complex]:
     print("Discriminant:", discriminant)
 
     if discriminant > 0:
+        print(Fore.YELLOW + "POSITIVE DISCRIMINANT", file=sys.stderr, flush=True)
         print("Discriminant is strictly positive, the two solutions are:")
         x1 = (-b / (2 * a)) - (ft_sqrt(discriminant) / (2 * a))
         x2 = (-b / (2 * a)) + (ft_sqrt(discriminant) / (2 * a))
@@ -57,22 +58,27 @@ def solve_degree_2(terms: list[float]) -> list[float | Complex]:
             print(x1)
             print(x2, "\n")
         else:
-            better_solution_deg2(2 * a, -b, int(discriminant), False)
+            better_solution_deg2(2 * a, -b, int(discriminant))
         return [x1, x2]
 
     elif discriminant == 0:
+        print(Fore.YELLOW + "NULL DISCRIMINANT", file=sys.stderr, flush=True)
         print("Discriminant is equal to 0, the solution is:")
         x = -b / (2 * a)
         better_solution_deg1(2 * a, -b)
         return [x]
 
     else:
+        print(Fore.YELLOW + "NEGATIVE DISCRIMINANT", file=sys.stderr, flush=True)
         print("Discriminant is strictly negative, the two complex solutions are:")
         z1 = Complex(0, 0)
         z2 = Complex(0, 0)
         z1.re = z2.re = -b / (2 * a)
         z1.im = ft_sqrt(-discriminant) / (2 * a)
         z2.im = -z1.im
-        print(z1)
-        print(z2, "\n")
+        if discriminant.is_integer() is False:
+            print(z1)
+            print(z2, "\n")
+        else:
+            better_solution_deg2(2 * a, -b, int(discriminant))
         return [z1, z2]
