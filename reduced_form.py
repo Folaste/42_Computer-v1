@@ -65,7 +65,7 @@ def get_values(terms: list[str]) -> list[tuple[float, int]]:
 
 
 def get_coefficients(values: list[tuple[float, int]], max_degree: int) -> list[float]:
-    coefficients = [0] * (max_degree + 1)
+    coefficients = [0.0] * (max_degree + 1)
     for value in values:
         coefficients[value[1]] += value[0]
     return coefficients
@@ -82,7 +82,7 @@ def get_reduced_coefficients(left_coefficients: list[float], right_coefficients:
 def create_reduced_form(reduced_coefficients: list[float]) -> str:
     string = ""
     for i, coefficient in enumerate(reduced_coefficients):
-        if i == 0:
+        if i == 0 and coefficient != 0:
             string += f"{coefficient} * X^{i}"
         elif coefficient == 0:
             continue

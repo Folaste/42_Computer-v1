@@ -56,7 +56,7 @@ def ft_prime_decomposition(n: int) -> list[int]:
     return factors
 
 
-def simplify_sqrt(n: int) -> tuple[int, int]:
+def simplify_sqrt(n: int) -> tuple[float, int]:
     """ Returns the simplified form of the square root of n as a tuple (factor, root) using prime decomposition."""
     factor = 1
     root = 1
@@ -74,7 +74,7 @@ def simplify_sqrt(n: int) -> tuple[int, int]:
     for i in factors:
         root *= i
 
-    return factor, root
+    return float(factor), root
 
 
 def ft_abs(n: int | float) -> int | float:

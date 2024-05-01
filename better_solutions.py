@@ -32,144 +32,147 @@ def better_solution_deg1(a: float | int, b: float | int) -> None:
     print()
 
 
-def better_solution_deg2_real(a: float | int, b: float | int, discriminant: int) -> None:
+def better_solution_deg2(a, b, discriminant, is_complex):
     print(Fore.BLUE + "BETTER SOLUTION DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
-    # Case where the discriminant is positive
-    print(Fore.GREEN + "POSITIVE DISCRIMINANT", file=sys.stderr, flush=True)
 
-    # Simplify the discriminant
+    if is_complex is True:
+        discriminant = -discriminant
+
     factor, root = simplify_sqrt(discriminant)
-
-    # Turn a, b and factor into integers to write a correct fraction
     a, b, factor = to_int(a, b, factor)
-    print(Fore.MAGENTA + f"a {a}, b {b}, f {factor}", file=sys.stderr, flush=True)
 
-    # Remove minus sign at denominator
     if a < 0:
         a *= -1
         b *= -1
         factor *= -1
+    factor = ft_abs(factor)
 
-    # General case
-    print(Fore.MAGENTA + f"General = {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
+    if is_complex is False:
+        print(Fore.GREEN + "POSITIVE DISCRIMINANT", file=sys.stderr, flush=True)
 
-    # No root case
-    if root == 1:
-        print(Fore.YELLOW + "Root = 1", file=sys.stderr, flush=True)
-        dem_pos = dem_neg = a
+        print(Fore.MAGENTA + f"General = {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
 
-        # Simplify the positive fraction
-        num_pos = b + factor
-        gcd_pos = ft_gcd(num_pos, dem_pos)
-        num_pos //= gcd_pos
-        dem_pos //= gcd_pos
+        if root == 1:
+            print(Fore.YELLOW + "Root = 1", file=sys.stderr, flush=True)
+            dem_pos = dem_neg = a
 
-        # Simplify the negative fraction
-        num_neg = b - factor
-        gcd_neg = ft_gcd(num_neg, dem_neg)
-        num_neg //= gcd_neg
-        dem_neg //= gcd_neg
+            # Simplify the positive fraction
+            num_pos = b + factor
+            gcd_pos = ft_gcd(num_pos, dem_pos)
+            num_pos //= gcd_pos
+            dem_pos //= gcd_pos
 
-        # Print the solution
-        if dem_pos == 1:
-            print(num_pos)
+            # Simplify the negative fraction
+            num_neg = b - factor
+            gcd_neg = ft_gcd(num_neg, dem_neg)
+            num_neg //= gcd_neg
+            dem_neg //= gcd_neg
+
+            # Print the solution
+            if dem_pos == 1:
+                print(num_pos)
+            else:
+                print(f"{num_pos} / {dem_pos}")
+
+            if dem_neg == 1:
+                print(num_neg)
+            else:
+                print(f"{num_neg} / {dem_neg}")
+
         else:
-            print(f"{num_pos} / {dem_pos}")
+            print(Fore.YELLOW + "Root != 1", file=sys.stderr, flush=True)
 
-        if dem_neg == 1:
-            print(num_neg)
-        else:
-            print(f"{num_neg} / {dem_neg}")
+            # First part of solution (common at all cases)
+            ba_dem = fa_dem = a
 
-    # Root case
+            # Find the greatest common divisor of b and ba_dem
+            gdc_ba = ft_gcd(b, ba_dem)
+
+            # Simplify the first part of the solution
+            b //= gdc_ba
+            ba_dem //= gdc_ba
+
+            if ba_dem == 1:
+                ba_part = str(b)
+            else:
+                ba_part = f"({b} / {ba_dem})"
+
+            # Second part of solution
+
+            # Find the greatest common divisor of factor and fa_dem
+            gdc_fa = ft_gcd(factor, fa_dem)
+
+            # Simplify the second part of the solution
+            factor //= gdc_fa
+            fa_dem //= gdc_fa
+
+            if fa_dem == 1:
+                if factor == 1:
+                    fa_part = '√' + str(root)
+                else:
+                    fa_part = f"{factor}√{root}"
+            else:
+                if factor == 1:
+                    fa_part = f"(√{root} / {fa_dem})"
+                else:
+                    fa_part = f"({factor}√{root} / {fa_dem})"
+
+            if ba_dem == fa_dem != 1:
+                if factor == 1:
+                    print(f"{b} + √{root} / {ba_dem}")
+                    print(f"{b} - √{root} / {ba_dem}")
+                else:
+                    print(f"{b} + {factor}√{root} / {ba_dem}")
+                    print(f"{b} - {factor}√{root} / {ba_dem}")
+            else:
+                print(ba_part + " - " + fa_part)
+                print(ba_part + " + " + fa_part)
+
     else:
-        print(Fore.YELLOW + "Root > 1", file=sys.stderr, flush=True)
-        # Find the greatest common divisor of a, b and factor
-        gcd = ft_gcd(a, b)
-        gcd = ft_gcd(gcd, factor)
-        print(Fore.MAGENTA + f"GCD {gcd}", file=sys.stderr, flush=True)
+        print(Fore.GREEN + "NEGATIVE DISCRIMINANT", file=sys.stderr, flush=True)
 
-        # Simplify the fraction
-        b //= gcd
-        a //= gcd
-        factor //= gcd
-        factor = ft_abs(factor)
+        # General case
+        print(Fore.MAGENTA + f"General = {b} / {a} ± {factor}√{root}i / {a}", file=sys.stderr, flush=True)
 
-        # Print the solution
-        if factor == 1:
-            if a == 1:
-                print(f"{b} - √{root}")
-                print(f"{b} + √{root}")
-            else:
-                print(f"{b} - √{root} / {a}")
-                print(f"{b} + √{root} / {a}")
+        dem_re = dem_im = a
+
+        # Simplify the real part
+        gcd_re = ft_gcd(b, dem_re)
+        b //= gcd_re
+        dem_re //= gcd_re
+
+        if dem_re == 1:
+            re_part = str(b)
         else:
-            if a == 1:
-                print(f"{b} - {factor}√{root}")
-                print(f"{b} + {factor}√{root}")
+            re_part = f"({b} / {dem_re})"
+
+        # Simplify the imaginary part
+        gcd_im = ft_gcd(factor, dem_im)
+        factor //= gcd_im
+        dem_im //= gcd_im
+
+        if root == 1:
+            if dem_im == 1:
+                if factor == 1:
+                    im_part = 'i'
+                else:
+                    im_part = str(factor) + 'i'
             else:
-                print(f"{b} - {factor}√{root} / {a}")
-                print(f"{b} + {factor}√{root} / {a}")
-    print()
-
-
-def better_solution_deg2_complex(a: float | int, b: float | int, discriminant: int) -> None:
-    print(Fore.GREEN + "NEGATIVE DISCRIMINANT", file=sys.stderr, flush=True)
-    # Simplify the discriminant
-    factor, root = simplify_sqrt(-discriminant)
-
-    # Turn a, b and factor into integers to write a correct fraction
-    a, b, factor = to_int(a, b, factor)
-    print(Fore.MAGENTA + f"a {a}, b {b}, f {factor}", file=sys.stderr, flush=True)
-
-    # Remove minus sign at denominator
-    if a < 0:
-        a *= -1
-        b *= -1
-        factor *= -1
-
-    # General case
-    print(Fore.MAGENTA + f"General = {b} / {a} ± {factor}√{root}i / {a}", file=sys.stderr, flush=True)
-
-    dem_re = dem_im = a
-
-    # Simplify the real part
-    gcd_re = ft_gcd(b, dem_re)
-    b //= gcd_re
-    dem_re //= gcd_re
-
-    if dem_re == 1:
-        re_part = str(b)
-    else:
-        re_part = f"{b} / {dem_re}"
-
-    # Simplify the imaginary part
-    gcd_im = ft_gcd(factor, dem_im)
-    factor //= gcd_im
-    dem_im //= gcd_im
-
-    if root == 1:
-        if dem_im == 1:
-            if factor == 1:
-                im_part = 'i'
-            else:
-                im_part = str(factor) + "i"
+                im_part = f"{factor}i / {dem_im}"
         else:
-            im_part = f"{factor}i / {dem_im}"
-    else:
-        if dem_im == 1:
-            if factor == 1:
-                im_part = f"√{root}i"
+            if dem_im == 1:
+                if factor == 1:
+                    im_part = f"√{root}i"
+                else:
+                    im_part = f"{factor}√{root}i"
             else:
-                im_part = f"{factor}√{root}i"
-        else:
-            if factor == 1:
-                im_part = f"√{root}i / {dem_im}"
-            else:
-                im_part = f"{factor}√{root}i / {dem_im}"
+                if factor == 1:
+                    im_part = f"√{root}i / {dem_im}"
+                else:
+                    im_part = f"{factor}√{root}i / {dem_im}"
 
-    print(re_part + " - " + im_part)
-    print(re_part + " + " + im_part)
+        print(re_part + " - " + im_part)
+        print(re_part + " + " + im_part)
     print()
 
 
