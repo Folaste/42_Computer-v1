@@ -11,12 +11,9 @@ def better_solution_deg1(a: float | int, b: float | int) -> None:
     print(Fore.MAGENTA + f"a {a}, b {b}", file=sys.stderr, flush=True)
 
     # Find the greatest common divisor of a and b
-    gcd = ft_gcd(a, b)
-    print(Fore.MAGENTA + f"GCD {gcd}", file=sys.stderr, flush=True)
+    b, a = simplify_fraction(b, a)
 
     # Simplify the fraction
-    b //= gcd
-    a //= gcd
     print(Fore.MAGENTA + f"a {a}, b {b}", file=sys.stderr, flush=True)
 
     # Remove minus sign at denominator
@@ -35,164 +32,74 @@ def better_solution_deg1(a: float | int, b: float | int) -> None:
 def better_solution_deg2(a, b, discriminant, is_complex):
     print(Fore.BLUE + "BETTER SOLUTION DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
 
-    if is_complex is True:
+    if is_complex:
         discriminant = -discriminant
 
     factor, root = simplify_sqrt(discriminant)
     a, b, factor = to_int(a, b, factor)
 
     if a < 0:
-        a *= -1
-        b *= -1
-        factor *= -1
+        a, b, factor = -a, -b, -factor
     factor = ft_abs(factor)
 
-    if is_complex is False:
-        print(Fore.GREEN + "POSITIVE DISCRIMINANT", file=sys.stderr, flush=True)
+    print(Fore.MAGENTA + f"General form: {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
 
-        print(Fore.MAGENTA + f"General = {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
+    if root == 1 and not is_complex:
+        num_pos, dem_pos = simplify_fraction(b + factor, a)
+        num_neg, dem_neg = simplify_fraction(b - factor, a)
 
-        if root == 1:
-            print(Fore.YELLOW + "Root = 1", file=sys.stderr, flush=True)
-            dem_pos = dem_neg = a
-
-            # Simplify the positive fraction
-            num_pos = b + factor
-            gcd_pos = ft_gcd(num_pos, dem_pos)
-            num_pos //= gcd_pos
-            dem_pos //= gcd_pos
-
-            # Simplify the negative fraction
-            num_neg = b - factor
-            gcd_neg = ft_gcd(num_neg, dem_neg)
-            num_neg //= gcd_neg
-            dem_neg //= gcd_neg
-
-            # Print the solution
-            if dem_pos == 1:
-                print(num_pos)
-            else:
-                print(f"{num_pos} / {dem_pos}")
-
-            if dem_neg == 1:
-                print(num_neg)
-            else:
-                print(f"{num_neg} / {dem_neg}")
-
-        else:
-            print(Fore.YELLOW + "Root != 1", file=sys.stderr, flush=True)
-
-            # First part of solution (common at all cases)
-            ba_dem = fa_dem = a
-
-            # Find the greatest common divisor of b and ba_dem
-            gdc_ba = ft_gcd(b, ba_dem)
-
-            # Simplify the first part of the solution
-            b //= gdc_ba
-            ba_dem //= gdc_ba
-
-            if ba_dem == 1:
-                ba_part = str(b)
-            else:
-                ba_part = f"({b} / {ba_dem})"
-
-            # Second part of solution
-
-            # Find the greatest common divisor of factor and fa_dem
-            gdc_fa = ft_gcd(factor, fa_dem)
-
-            # Simplify the second part of the solution
-            factor //= gdc_fa
-            fa_dem //= gdc_fa
-
-            if fa_dem == 1:
-                if factor == 1:
-                    fa_part = '√' + str(root)
-                else:
-                    fa_part = f"{factor}√{root}"
-            else:
-                if factor == 1:
-                    fa_part = f"(√{root} / {fa_dem})"
-                else:
-                    fa_part = f"({factor}√{root} / {fa_dem})"
-
-            if ba_dem == fa_dem != 1:
-                if factor == 1:
-                    print(f"{b} + √{root} / {ba_dem}")
-                    print(f"{b} - √{root} / {ba_dem}")
-                else:
-                    print(f"{b} + {factor}√{root} / {ba_dem}")
-                    print(f"{b} - {factor}√{root} / {ba_dem}")
-            else:
-                print(ba_part + " - " + fa_part)
-                print(ba_part + " + " + fa_part)
+        # Print the solutions
+        print(f"{num_neg if dem_neg == 1 else f'{num_neg} / {dem_neg}'}")
+        print(f"{num_pos if dem_pos == 1 else f'{num_pos} / {dem_pos}'}")
 
     else:
-        print(Fore.GREEN + "NEGATIVE DISCRIMINANT", file=sys.stderr, flush=True)
+        b, dem_first = simplify_fraction(b, a)
+        factor, dem_second = simplify_fraction(factor, a)
 
-        # General case
-        print(Fore.MAGENTA + f"General = {b} / {a} ± {factor}√{root}i / {a}", file=sys.stderr, flush=True)
+        first_part = str(b) if dem_first == 1 else f"({b} / {dem_first})"
 
-        dem_re = dem_im = a
-
-        # Simplify the real part
-        gcd_re = ft_gcd(b, dem_re)
-        b //= gcd_re
-        dem_re //= gcd_re
-
-        if dem_re == 1:
-            re_part = str(b)
+        if factor == 1:
+            second_part = f"√{root}" if dem_second == 1 else f"√{root} / {dem_second}"
         else:
-            re_part = f"({b} / {dem_re})"
+            second_part = f"{factor}√{root}" if dem_second == 1 else f"({factor}√{root} / {dem_second})"
 
-        # Simplify the imaginary part
-        gcd_im = ft_gcd(factor, dem_im)
-        factor //= gcd_im
-        dem_im //= gcd_im
-
-        if root == 1:
-            if dem_im == 1:
-                if factor == 1:
-                    im_part = 'i'
-                else:
-                    im_part = str(factor) + 'i'
-            else:
-                im_part = f"{factor}i / {dem_im}"
+        if dem_first == dem_second != 1 and not is_complex:
+            print(f"({b} - √{root}) / {dem_first}" if factor == 1 else f"({b} - {factor}√{root}) / {dem_first}")
+            print(f"({b} + √{root}) / {dem_first}" if factor == 1 else f"({b} + {factor}√{root}) / {dem_first}")
         else:
-            if dem_im == 1:
-                if factor == 1:
-                    im_part = f"√{root}i"
-                else:
-                    im_part = f"{factor}√{root}i"
-            else:
-                if factor == 1:
-                    im_part = f"√{root}i / {dem_im}"
-                else:
-                    im_part = f"{factor}√{root}i / {dem_im}"
+            result_1 = first_part + " - " + second_part
+            result_2 = first_part + " + " + second_part
 
-        print(re_part + " - " + im_part)
-        print(re_part + " + " + im_part)
+            if is_complex:
+                result_1 += 'i'
+                result_2 += 'i'
+
+            print(result_1)
+            print(result_2)
     print()
+
+
+def simplify_fraction(numerator, denominator):
+    gcd = ft_gcd(numerator, denominator)
+    return numerator // gcd, denominator // gcd
 
 
 def to_int(*args):
     # Convert the arguments to a list
     args = list(args)
+    max_len = 0
     # Check if all the arguments are integers
     if not all(arg.is_integer() for arg in args):
         # Iterate through the arguments
-        for arg in args:
-            # Convert argument to string
-            arg = str(arg)
-            # Split the float into two parts, the integer part and the decimal part
-            arg = arg.split('.')
+        for i in range(len(args)):
+            # Convert argument to string and split it at the decimal point
+            args[i] = str(args[i]).split('.')
             # If the decimal part is empty, add a '0' to it
-            if len(arg) == 1:
-                arg.append('0')
-
-        # Find the max length of the decimal parts
-        max_len = max(len(arg[1]) for arg in args)
+            if len(args[i]) == 1:
+                args[i].append('0')
+            # Find the max length of the decimal parts
+            if len(args[i][1]) > max_len:
+                max_len = len(args[i][1])
 
         # Make the decimal part the same length
         for i in range(len(args)):
@@ -202,7 +109,7 @@ def to_int(*args):
         # Combine the integer part and the decimal part
         for i in range(len(args)):
             args[i] = int(args[i][0] + args[i][1])
-            print(Fore.MAGENTA + args[i], file=sys.stderr, flush=True)
+            print(Fore.MAGENTA + f"{args[i]}", file=sys.stderr, flush=True)
 
     else:
         # Convert the arguments to integers

@@ -59,7 +59,11 @@ def get_values(terms: list[str]) -> list[tuple[float, int]]:
     values = []
     for term in terms:
         value = term.split("*X^")
-        value = float(value[0]), int(value[1])
+        if value[0].find("/") != -1:
+            division = value[0].split("/")
+            value = float(division[0]) / float(division[1]), int(value[1])
+        else:
+            value = float(value[0]), int(value[1])
         values.append(value)
     return values
 

@@ -71,11 +71,8 @@ def solve_degree_2(terms: list[float]) -> list[float | Complex]:
     else:
         print(Fore.YELLOW + "NEGATIVE DISCRIMINANT", file=sys.stderr, flush=True)
         print("Discriminant is strictly negative, the two complex solutions are:")
-        z1 = Complex(0, 0)
-        z2 = Complex(0, 0)
-        z1.re = z2.re = -b / (2 * a)
-        z1.im = ft_sqrt(-discriminant) / (2 * a)
-        z2.im = -z1.im
+        z1 = Complex(-b / (2 * a), -ft_sqrt(-discriminant) / (2 * a))
+        z2 = Complex(-b / (2 * a), ft_sqrt(-discriminant) / (2 * a))
         if discriminant.is_integer() is False:
             print(z1)
             print(z2, "\n")
