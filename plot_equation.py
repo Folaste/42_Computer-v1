@@ -2,13 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from ft_math import ft_pow
+from fraction import Fraction
 
 
-def plot_equation(terms: list[float]) -> None:
+def plot_equation(terms: list[Fraction]) -> None:
     print("Plotting the equation...\n")
 
     def f(z):
-        return sum([term * ft_pow(z, i) for i, term in enumerate(terms)])
+        return sum([term.result() * ft_pow(z, i) for i, term in enumerate(terms)])
 
     x = np.linspace(-5, 5, 1000)
     y = f(x)
