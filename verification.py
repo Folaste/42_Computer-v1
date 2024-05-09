@@ -8,7 +8,7 @@ def verify_solutions(solutions, terms):
     print(Fore.BLUE + "\n\nVERIFY SOLUTIONS FUNCTION", file=sys.stderr, flush=True)
 
     def f(z):
-        return sum([term * ft_pow(z, i) for i, term in enumerate(terms)])
+        return sum([term.result() * ft_pow(z, i) for i, term in enumerate(terms)])
 
     print("Verifying the solutions...")
     for solution in solutions:

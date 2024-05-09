@@ -2,73 +2,51 @@ import sys
 from colorama import Fore
 
 from ft_math import ft_gcd, simplify_sqrt, ft_abs
+from fraction import Fraction
 
 
-def better_solution_deg1(a: float | int, b: float | int) -> None:
-    print(Fore.BLUE + "BETTER SOLUTION DEGREE 1 FUNCTION", file=sys.stderr, flush=True)
-    # Turn a and b into integers to write a correct fraction
-    a, b = to_int(a, b)
-    print(Fore.MAGENTA + f"a {a}, b {b}", file=sys.stderr, flush=True)
-
-    # Find the greatest common divisor of a and b
-    b, a = simplify_fraction(b, a)
-
-    # Simplify the fraction
-    print(Fore.MAGENTA + f"a {a}, b {b}", file=sys.stderr, flush=True)
-
-    # Remove minus sign at denominator
-    if a < 0:
-        a *= -1
-        b *= -1
-
-    # Print the solution
-    if a == 1:
-        print(f"{b}")
-    else:
-        print(f"{b} / {a}")
-    print()
-
-
-def better_solution_deg2(a, b, discriminant, is_complex):
+def better_solutions(a, b, discriminant, is_complex):
     print(Fore.BLUE + "BETTER SOLUTION DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
 
     if is_complex:
         discriminant = -discriminant
-
     factor, root = simplify_sqrt(discriminant)
-    a, b, factor = to_int(a, b, factor)
 
-    if a < 0:
-        a, b, factor = -a, -b, -factor
-    factor = ft_abs(factor)
-
-    print(Fore.MAGENTA + f"General form: {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
+    # print(Fore.MAGENTA + f"General form: {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
 
     if root == 1 and not is_complex:
-        num_pos, dem_pos = simplify_fraction(b + factor, a)
-        num_neg, dem_neg = simplify_fraction(b - factor, a)
+        x1 = Fraction(b.result() - factor, a.result())
+        x2 = Fraction(b.result() + factor, a.result())
 
-        # Print the solutions
-        print(f"{num_neg if dem_neg == 1 else f'{num_neg} / {dem_neg}'}")
-        print(f"{num_pos if dem_pos == 1 else f'{num_pos} / {dem_pos}'}")
+        print(x1)
+        print(x2)
 
     else:
-        b, dem_first = simplify_fraction(b, a)
-        factor, dem_second = simplify_fraction(factor, a)
+        first_part = Fraction(b.result(), a.result())
+        second_part = Fraction(factor, a.result())
 
-        first_part = str(b) if dem_first == 1 else f"({b} / {dem_first})"
+        num_first = first_part.numerator
+        dem_first = first_part.denominator
+        num_second = second_part.numerator
+        dem_second = second_part.denominator
 
-        if factor == 1:
+        if num_second == 1:
             second_part = f"√{root}" if dem_second == 1 else f"√{root} / {dem_second}"
         else:
-            second_part = f"{factor}√{root}" if dem_second == 1 else f"({factor}√{root} / {dem_second})"
+            second_part = f"{num_second}√{root}" if dem_second == 1 else f"({num_second}√{root} / {dem_second})"
 
         if dem_first == dem_second != 1 and not is_complex:
-            print(f"({b} - √{root}) / {dem_first}" if factor == 1 else f"({b} - {factor}√{root}) / {dem_first}")
-            print(f"({b} + √{root}) / {dem_first}" if factor == 1 else f"({b} + {factor}√{root}) / {dem_first}")
+            print(f"({num_first} - √{root}) / {dem_first}" if factor == 1
+                  else f"({num_first} - {factor}√{root}) / {dem_first}")
+            print(f"({num_first} + √{root}) / {dem_first}" if factor == 1
+                  else f"({num_first} + {factor}√{root}) / {dem_first}")
         else:
-            result_1 = first_part + " - " + second_part
-            result_2 = first_part + " + " + second_part
+            result_1 = f"{first_part} - ({second_part})"
+            result_2 = f"{first_part} + ({second_part})"
+
+            # if root != 1:
+            #     result_1 += f"√{root}"
+            #     result_2 += f"√{root}"
 
             if is_complex:
                 result_1 += 'i'
