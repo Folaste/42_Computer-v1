@@ -1,8 +1,10 @@
 import sys
 from colorama import Fore
 
+from fraction import Fraction
 
-def reduced_form(equation: str) -> list[float]:
+
+def reduced_form(equation: str) -> list[Fraction]:
     print(Fore.BLUE + "REDUCED FORM FUNCTION", file=sys.stderr, flush=True)
     left, right = split_equation(equation)
     print(Fore.MAGENTA + f"Left part: {left}\nRight part: {right}", file=sys.stderr, flush=True)
@@ -49,33 +51,33 @@ def split_equation(equation: str) -> tuple[str, str]:
 
 def split_into_terms(part: str) -> list[str]:
     part = part.replace("+", " ").replace("-", " -")
-    if part[0] == " ":
+    while part[0] == " ":
         part = part[1:]
     terms = part.split(" ")
     return terms
 
 
-def get_values(terms: list[str]) -> list[tuple[float, int]]:
+def get_values(terms: list[str]) -> list[tuple[Fraction, int]]:
     values = []
     for term in terms:
         value = term.split("*X^")
         if value[0].find("/") != -1:
             division = value[0].split("/")
-            value = float(division[0]) / float(division[1]), int(value[1])
+            value = Fraction(float(division[0]), float(division[1])), int(value[1])
         else:
-            value = float(value[0]), int(value[1])
+            value = Fraction(float(value[0]), 1.0), int(value[1])
         values.append(value)
     return values
 
 
-def get_coefficients(values: list[tuple[float, int]], max_degree: int) -> list[float]:
-    coefficients = [0.0] * (max_degree + 1)
+def get_coefficients(values: list[tuple[Fraction, int]], max_degree: int) -> list[Fraction]:
+    coefficients = [Fraction(0.0, 1.0)] * (max_degree + 1)
     for value in values:
         coefficients[value[1]] += value[0]
     return coefficients
 
 
-def get_reduced_coefficients(left_coefficients: list[float], right_coefficients: list[float]) -> list[float]:
+def get_reduced_coefficients(left_coefficients: list[Fraction], right_coefficients: list[Fraction]) -> list[Fraction]:
     reduced_coefficients = [left - right for left, right in zip(left_coefficients, right_coefficients)]
     # Remove trailing zeros
     while reduced_coefficients and reduced_coefficients[-1] == 0 and len(reduced_coefficients) > 1:
@@ -83,7 +85,7 @@ def get_reduced_coefficients(left_coefficients: list[float], right_coefficients:
     return reduced_coefficients
 
 
-def create_reduced_form(reduced_coefficients: list[float]) -> str:
+def create_reduced_form(reduced_coefficients: list[Fraction]) -> str:
     string = ""
     for i, coefficient in enumerate(reduced_coefficients):
         if i == 0 and coefficient != 0:

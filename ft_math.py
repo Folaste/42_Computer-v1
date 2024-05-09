@@ -1,11 +1,16 @@
 import sys
+from typing import Union
 
-from complex import Complex
 
-
-def ft_pow(base: float | int | Complex, exponent: int) -> int | float | Complex:
+def ft_pow(base: Union[float, int, 'Complex', 'Fraction'], exponent: int) -> Union[int, float, 'Complex', 'Fraction']:
     """ Returns base raised to the power of exponent. """
+    from complex import Complex
+    from fraction import Fraction
+
     if isinstance(base, Complex):
+        return base.ft_pow(exponent)
+
+    if isinstance(base, Fraction):
         return base.ft_pow(exponent)
 
     if exponent == 0:
