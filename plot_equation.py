@@ -8,8 +8,13 @@ from fraction import Fraction
 def plot_equation(terms: list[Fraction]) -> None:
     print("Plotting the equation...\n")
 
+    def term_result(term):
+        return term.result()
+
+    v_term_result = np.vectorize(term_result)
+
     def f(z):
-        return sum([term.result() * ft_pow(z, i) for i, term in enumerate(terms)])
+        return sum([v_term_result(term) * ft_pow(z, i) for i, term in enumerate(terms)])
 
     x = np.linspace(-5, 5, 1000)
     y = f(x)

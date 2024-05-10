@@ -1,11 +1,13 @@
 import sys
 from colorama import Fore
+
 from complex import Complex
 from ft_math import ft_pow, ft_sqrt
 from better_solutions import better_solutions
+from fraction import Fraction
 
 
-def solve_equation(terms):
+def solve_equation(terms: list[Fraction]) -> list[float | Complex] | None:
     print(Fore.BLUE + "\n\nSOLVE EQUATION FUNCTION", file=sys.stderr, flush=True)
     degree = len(terms) - 1
     print("Polynomial degree:", degree, "\n")
@@ -23,7 +25,7 @@ def solve_equation(terms):
     return solutions
 
 
-def solve_degree_0(terms) -> None:
+def solve_degree_0(terms: list[Fraction]) -> None:
     print(Fore.GREEN + "SOLVE DEGREE 0 FUNCTION", file=sys.stderr, flush=True)
     if terms[0] == 0:
         print("All real numbers are solutions.")
@@ -31,8 +33,7 @@ def solve_degree_0(terms) -> None:
         print("There is no solution for the equation.")
 
 
-# IN : list[Fraction]
-def solve_degree_1(terms):
+def solve_degree_1(terms: list[Fraction]) -> list[float]:
     print(Fore.GREEN + "SOLVE DEGREE 1 FUNCTION", file=sys.stderr, flush=True)
     b = terms[0]
     a = terms[1]
@@ -42,8 +43,7 @@ def solve_degree_1(terms):
     return [x.result()]
 
 
-# IN : list[Fraction]
-def solve_degree_2(terms):
+def solve_degree_2(terms: list[Fraction]) -> list[float | Complex]:
     print(Fore.GREEN + "SOLVE DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
     a = terms[2]
     b = terms[1]
@@ -52,6 +52,7 @@ def solve_degree_2(terms):
     discriminant = discriminant.result()
     print("Discriminant:", discriminant)
 
+    # Convert the fractions to floats to simplify the calculations
     a_float = a.result()
     b_float = b.result()
 

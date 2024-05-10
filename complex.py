@@ -13,28 +13,28 @@ class Complex:
         sign = "+" if self._im >= 0 else "-"
         return f"{self._re} {sign} {abs(self._im)}i"
 
-    def __add__(self, other):
+    def __add__(self, other) -> 'Complex':
         if isinstance(other, Complex):
             return Complex(self._re + other.re, self._im + other.im)
         else:
             return Complex(self._re + other, self._im)
 
-    def __radd__(self, other):
+    def __radd__(self, other) -> 'Complex':
         return self + other
 
-    def __sub__(self, other):
+    def __sub__(self, other) -> 'Complex':
         if isinstance(other, Complex):
             return Complex(self._re - other.re, self._im - other.im)
         else:
             return Complex(self._re - other, self._im)
 
-    def __mul__(self, other):
+    def __mul__(self, other) -> 'Complex':
         if isinstance(other, Complex):
             return Complex(self._re * other.re - self._im * other.im, self._re * other.im + self._im * other.re)
         else:
             return Complex(self._re * other, self._im * other)
 
-    def __rmul__(self, other):
+    def __rmul__(self, other) -> 'Complex':
         return self * other
 
     def ft_pow(self, exponent: int) -> 'Complex':
@@ -42,7 +42,7 @@ class Complex:
             return Complex(1, 0)
         return self * self.ft_pow(exponent - 1)
 
-    def __round__(self, n=None):
+    def __round__(self, n=None) -> 'Complex':
         return Complex(round(self._re, n), round(self._im, n))
 
     @property

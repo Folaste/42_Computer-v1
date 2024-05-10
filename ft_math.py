@@ -1,8 +1,9 @@
 import sys
-from typing import Union
+
+import numpy as np
 
 
-def ft_pow(base: Union[float, int, 'Complex', 'Fraction'], exponent: int) -> Union[int, float, 'Complex', 'Fraction']:
+def ft_pow(base, exponent):
     """ Returns base raised to the power of exponent. """
     from complex import Complex
     from fraction import Fraction
@@ -12,6 +13,9 @@ def ft_pow(base: Union[float, int, 'Complex', 'Fraction'], exponent: int) -> Uni
 
     if isinstance(base, Fraction):
         return base.ft_pow(exponent)
+
+    if isinstance(base, np.ndarray):
+        return np.power(base, exponent)
 
     if exponent == 0:
         return 1

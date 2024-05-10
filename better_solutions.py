@@ -1,18 +1,17 @@
 import sys
+
 from colorama import Fore
 
-from ft_math import ft_gcd, simplify_sqrt, ft_abs
 from fraction import Fraction
+from ft_math import ft_gcd, simplify_sqrt
 
 
-def better_solutions(a, b, discriminant, is_complex):
+def better_solutions(a: Fraction, b: Fraction, discriminant: int, is_complex: bool) -> None:
     print(Fore.BLUE + "BETTER SOLUTION DEGREE 2 FUNCTION", file=sys.stderr, flush=True)
 
     if is_complex:
         discriminant = -discriminant
     factor, root = simplify_sqrt(discriminant)
-
-    # print(Fore.MAGENTA + f"General form: {b} ± {factor}√{root} / {a}", file=sys.stderr, flush=True)
 
     if root == 1 and not is_complex:
         x1 = Fraction(b.result() - factor, a.result())
@@ -44,10 +43,6 @@ def better_solutions(a, b, discriminant, is_complex):
             result_1 = f"{first_part} - ({second_part})"
             result_2 = f"{first_part} + ({second_part})"
 
-            # if root != 1:
-            #     result_1 += f"√{root}"
-            #     result_2 += f"√{root}"
-
             if is_complex:
                 result_1 += 'i'
                 result_2 += 'i'
@@ -55,11 +50,6 @@ def better_solutions(a, b, discriminant, is_complex):
             print(result_1)
             print(result_2)
     print()
-
-
-def simplify_fraction(numerator, denominator):
-    gcd = ft_gcd(numerator, denominator)
-    return numerator // gcd, denominator // gcd
 
 
 def to_int(*args):
