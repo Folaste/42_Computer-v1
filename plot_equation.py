@@ -1,8 +1,8 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from ft_math import ft_pow
 from fraction import Fraction
+from ft_math import ft_pow
 
 
 def plot_equation(terms: list[Fraction]) -> None:

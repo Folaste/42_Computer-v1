@@ -7,6 +7,7 @@ We have to show at least:
 """
 
 import sys
+
 from colorama import init
 
 from plot_equation import plot_equation

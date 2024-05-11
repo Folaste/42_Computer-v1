@@ -14,6 +14,7 @@ def ft_pow(base, exponent):
     if isinstance(base, Fraction):
         return base.ft_pow(exponent)
 
+    # Only use for bonus (plot_equation.py)
     if isinstance(base, np.ndarray):
         return np.power(base, exponent)
 
@@ -65,7 +66,7 @@ def ft_prime_decomposition(n: int) -> list[int]:
     return factors
 
 
-def simplify_sqrt(n: int) -> tuple[float, int]:
+def simplify_sqrt(n: int) -> tuple[int, int]:
     """ Returns the simplified form of the square root of n as a tuple (factor, root) using prime decomposition."""
     factor = 1
     root = 1
@@ -83,7 +84,7 @@ def simplify_sqrt(n: int) -> tuple[float, int]:
     for i in factors:
         root *= i
 
-    return float(factor), root
+    return factor, root
 
 
 def ft_abs(n: int | float) -> int | float:

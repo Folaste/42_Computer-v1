@@ -1,10 +1,11 @@
 import sys
+
 from colorama import Fore
 
-from complex import Complex
-from ft_math import ft_pow, ft_sqrt
 from better_solutions import better_solutions
+from complex import Complex
 from fraction import Fraction
+from ft_math import ft_pow, ft_sqrt
 
 
 def solve_equation(terms: list[Fraction]) -> list[float | Complex] | None:

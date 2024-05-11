@@ -3,7 +3,7 @@ import sys
 from colorama import Fore
 
 from fraction import Fraction
-from ft_math import ft_gcd, simplify_sqrt
+from ft_math import simplify_sqrt, ft_abs
 
 
 def better_solutions(a: Fraction, b: Fraction, discriminant: int, is_complex: bool) -> None:
@@ -12,6 +12,8 @@ def better_solutions(a: Fraction, b: Fraction, discriminant: int, is_complex: bo
     if is_complex:
         discriminant = -discriminant
     factor, root = simplify_sqrt(discriminant)
+
+    print(Fore.MAGENTA + f"Factor: {factor}, Root: {root}", file=sys.stderr, flush=True)
 
     if root == 1 and not is_complex:
         x1 = Fraction(b.result() - factor, a.result())
@@ -26,7 +28,7 @@ def better_solutions(a: Fraction, b: Fraction, discriminant: int, is_complex: bo
 
         num_first = first_part.numerator
         dem_first = first_part.denominator
-        num_second = second_part.numerator
+        num_second = ft_abs(second_part.numerator)
         dem_second = second_part.denominator
 
         if num_second == 1:
@@ -35,10 +37,10 @@ def better_solutions(a: Fraction, b: Fraction, discriminant: int, is_complex: bo
             second_part = f"{num_second}√{root}" if dem_second == 1 else f"({num_second}√{root} / {dem_second})"
 
         if dem_first == dem_second != 1 and not is_complex:
-            print(f"({num_first} - √{root}) / {dem_first}" if factor == 1
-                  else f"({num_first} - {factor}√{root}) / {dem_first}")
-            print(f"({num_first} + √{root}) / {dem_first}" if factor == 1
-                  else f"({num_first} + {factor}√{root}) / {dem_first}")
+            print(f"({num_first} - √{root}) / {dem_first}" if num_second == 1
+                  else f"({num_first} - {num_second}√{root}) / {dem_first}")
+            print(f"({num_first} + √{root}) / {dem_first}" if num_second == 1
+                  else f"({num_first} + {num_second}√{root}) / {dem_first}")
         else:
             result_1 = f"{first_part} - ({second_part})"
             result_2 = f"{first_part} + ({second_part})"
