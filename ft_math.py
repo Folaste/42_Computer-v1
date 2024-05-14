@@ -26,7 +26,7 @@ def ft_pow(base, exponent):
 
 
 def ft_sqrt(number: int | float, epsilon=1e-10, max_iterations=8000) -> int | float:
-    """ Returns an approximation of square root, using Newton-Raphson method."""
+    """ Returns an approximation of square root, using Heron's method."""
 
     if number == 0:
         return 0.0
