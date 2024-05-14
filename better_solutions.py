@@ -59,7 +59,7 @@ def to_int(*args):
     args = list(args)
     max_len = 0
     # Check if all the arguments are integers
-    if not all(arg.is_integer() for arg in args):
+    if all(isinstance(arg, float) for arg in args) and not all(arg.is_integer() for arg in args):
         # Iterate through the arguments
         for i in range(len(args)):
             # Convert argument to string and split it at the decimal point

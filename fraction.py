@@ -1,6 +1,6 @@
 class Fraction:
 
-    def __init__(self, numerator: int | float, denominator: int | float = 1):
+    def __init__(self, numerator: int | float, denominator: int | float = 1.0):
         from better_solutions import to_int
         numerator, denominator = to_int(numerator, denominator)
         if denominator < 0:
@@ -26,7 +26,7 @@ class Fraction:
 
     def __add__(self, other) -> 'Fraction':
         if isinstance(other, (int, float)):
-            other = Fraction(other, 1)
+            other = Fraction(other, 1.0)
         numerator = self._numerator * other._denominator + other._numerator * self._denominator
         denominator = self._denominator * other._denominator
         result = Fraction(numerator, denominator)
