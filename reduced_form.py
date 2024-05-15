@@ -81,7 +81,7 @@ def get_coefficients(values: list[tuple[Fraction, int]], max_degree: int) -> lis
 def get_reduced_coefficients(left_coefficients: list[Fraction], right_coefficients: list[Fraction]) -> list[Fraction]:
     reduced_coefficients = [left - right for left, right in zip(left_coefficients, right_coefficients)]
     # Remove trailing zeros
-    while reduced_coefficients and reduced_coefficients[-1] == 0 and len(reduced_coefficients) > 1:
+    while reduced_coefficients[-1] == 0 and len(reduced_coefficients) > 1:
         reduced_coefficients.pop()
     return reduced_coefficients
 
@@ -90,8 +90,10 @@ def create_reduced_form(reduced_coefficients: list[Fraction]) -> str:
     string = ""
     for i, coefficient in enumerate(reduced_coefficients):
         if coefficient != 0:
-            sign = " - " if coefficient < 0 else " + " if string else ""
-            string += f"{sign if i != 0 else ''}{abs(coefficient)} * X^{i}"
+            if i == 0:
+                string += f"{coefficient} * X^{i}"
+            else:
+                string += f"{' - ' if coefficient < 0 else ' + '}{abs(coefficient)} * X^{i}"
     if not string:
         string = f"{reduced_coefficients[0]} * X^0"
     return string + " = 0"

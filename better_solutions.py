@@ -42,8 +42,8 @@ def better_solutions(a: Fraction, b: Fraction, discriminant: int, is_complex: bo
             print(f"({num_first} + √{root}) / {dem_first}" if num_second == 1
                   else f"({num_first} + {num_second}√{root}) / {dem_first}")
         else:
-            result_1 = f"{first_part} - ({second_part})"
-            result_2 = f"{first_part} + ({second_part})"
+            result_1 = f"{first_part} - {second_part}"
+            result_2 = f"{first_part} + {second_part}"
 
             if is_complex:
                 result_1 += 'i'
